@@ -1,0 +1,7 @@
+<br />
+<% form_tag :action => "manager" do -%>
+	<label for="ad_lookup">Search</label>
+	<%= text_field_with_auto_complete :ad, :title %>
+	<%= submit_tag 'Search' %>
+<% end %>
+<br /><br />

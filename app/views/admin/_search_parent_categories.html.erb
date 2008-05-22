@@ -1,0 +1,7 @@
+<br />
+<% form_tag :action => "parent_category" do -%>
+	<label for="parent_category_lookup">Search</label>
+	<%= text_field_with_auto_complete :parent_category, :name %>
+	<%= submit_tag 'Search' %>
+<% end %>
+<br /><br />

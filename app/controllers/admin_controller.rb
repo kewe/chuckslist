@@ -2,7 +2,7 @@ class AdminController < ApplicationController
   include AuthenticatedSystem
   
   before_filter :login_required
-  
+    
   def index
    if (!current_user.isAdmin)
     redirect_to :controller => 'main', :action => 'index'
@@ -10,20 +10,19 @@ class AdminController < ApplicationController
   end
     
   def manager
-    #@ads = Ad.find(:all)
-    @display_data = Ad.display_paged_data(params[:page])
+    @display_data = Ad.paginate(:conditions => ["title like ?", params[:ad][:title] + "%"], :page => params[:page], :per_page => 10, :order => 'title ASC') rescue Ad.paginate(:all, :page => params[:page], :per_page => 10, :order => 'title ASC')
   end
   
   def authors
     @display_data = Author.display_paged_data(params[:page])
   end
-  
+              
   def category
-    @display_data = Category.display_paged_data(params[:page])
+    @display_data = Category.paginate(:conditions => ["name like ?", params[:category][:name] + "%"], :page => params[:page], :per_page => 10, :order => 'name ASC') rescue Category.paginate(:all, :page => params[:page], :per_page => 10, :order => 'name ASC')
     @parents = ParentCategory.find(:all)
     @parent_categories = @parents.collect { |p| [p.name, p.id] }
   end
-    
+      
   def create_category
     if request.post? && params[:new_category] != ""
       begin
@@ -49,7 +48,7 @@ class AdminController < ApplicationController
   end
   
   def parent_category
-    @display_data = ParentCategory.display_paged_data(params[:page])
+    @display_data = ParentCategory.paginate(:conditions => ["name like ?", params[:parent_category][:name] + "%"], :page => params[:page], :per_page => 10, :order => 'name ASC') rescue ParentCategory.paginate(:all, :page => params[:page], :per_page => 10, :order => 'name ASC')
   end
   
   def create_parent_category
@@ -75,7 +74,7 @@ class AdminController < ApplicationController
       redirect_to :action => 'parent_category'
     end
   end
-  
+
   def delete_author_and_ads
     @author = Author.find_by_id(params[:id])
     if request.post? && !@author.nil?
@@ -90,7 +89,8 @@ class AdminController < ApplicationController
   
   
   def user
-    @display_data = User.display_paged_data(params[:page])
+    #@display_data = User.display_paged_data(params[:page])
+    @display_data = User.paginate(:conditions => ["email like ?", params[:user][:email] + "%"], :page => params[:page], :per_page => 10, :order => 'email ASC') rescue User.paginate(:all, :page => params[:page], :per_page => 10, :order => 'email ASC')
   end
   
   def delete_user
@@ -325,6 +325,10 @@ class AdminController < ApplicationController
   #   redirect_to :action => 'user'
   # end
 
+  auto_complete_for :parent_category, :name
+  auto_complete_for :category, :name
+  auto_complete_for :ad, :title
+  auto_complete_for :user, :email
   
   
 end

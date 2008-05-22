@@ -1,0 +1,7 @@
+<br />
+<% form_tag :action => "user" do -%>
+	<label for="user_lookup">Search</label>
+	<%= text_field_with_auto_complete :user, :email %>
+	<%= submit_tag 'Search' %>
+<% end %>
+<br /><br />

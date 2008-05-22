@@ -1,0 +1,7 @@
+<br />
+<% form_tag :action => "category" do -%>
+	<label for="category_lookup">Search</label>
+	<%= text_field_with_auto_complete :category, :name %>
+	<%= submit_tag 'Search' %>
+<% end %>
+<br /><br />
