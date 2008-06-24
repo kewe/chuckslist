@@ -1,0 +1,4 @@
+<tr class="<%= cycle('rowodd','roweven') %>" id="ad_<%= h(ad.id.to_s) %>">
+  <td class ="cell-ads"><%= link_to h(ad.title), :controller => 'ads', :action => 'show', :id => ad %></td>
+  <td class ="cell-ads"><%= h(truncate(ad.ad, 255)) %></td>
+</tr>
